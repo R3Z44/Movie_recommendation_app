@@ -10,5 +10,12 @@ def load_data(file_path):
     Returns:
         pd.DataFrame: DataFrame containing movie data.
     """
-    movie_data = pd.read_csv(file_path)
-    return movie_data
+    try:
+        movie_data = pd.read_csv(file_path, low_memory=False)
+        return movie_data
+    except FileNotFoundError:
+        print(f"Error: File '{file_path}' not found.")
+        return None
+    except Exception as e:
+        print(f"Error: An unexpected error occurred while loading data: {str(e)}")
+        return None
