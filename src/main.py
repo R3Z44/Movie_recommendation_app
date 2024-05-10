@@ -20,3 +20,28 @@ similarity = decompress_with_zstd('data/pkl_data/similarity.zstd')
 
 # Your API key
 API_KEY = "#YOUR_API_KEY"
+
+
+# Fetch movie poster from TMDb API
+def fetch_poster(movie_id):
+    try:
+        response = requests.get(f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={API_KEY}&language=en-US")
+        data = response.json()
+        if data.get('poster_path'):
+            return "https://image.tmdb.org/t/p/original" + data['poster_path']
+        else:
+            return None  # No poster available
+    except:
+        return None  # Error occurred
+
+# Fetch IMDB ID from TMDb API
+def fetch_imdb_id(movie_id):
+    try:
+        response = requests.get(f"https://api.themoviedb.org/3/movie/{movie_id}/external_ids?api_key={API_KEY}")
+        data = response.json()
+        if data.get('imdb_id'):
+            return data['imdb_id']
+        else:
+            return None  # No IMDB ID available
+    except:
+        return None  # Error occurred
