@@ -17,3 +17,6 @@ def decompress_with_zstd(file_path):
 # Load movie data and similarity scores
 movies_df = decompress_with_zstd('data/pkl_data/movies_df.zstd')
 similarity = decompress_with_zstd('data/pkl_data/similarity.zstd')
+
+# Your API key
+API_KEY = "#YOUR_API_KEY"
