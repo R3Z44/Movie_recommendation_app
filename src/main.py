@@ -13,3 +13,7 @@ def decompress_with_zstd(file_path):
     # Load the model from the decompressed data
     loaded_model = pickle.loads(decompressed_data)
     return loaded_model
+
+# Load movie data and similarity scores
+movies_df = decompress_with_zstd('data/pkl_data/movies_df.zstd')
+similarity = decompress_with_zstd('data/pkl_data/similarity.zstd')
