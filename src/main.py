@@ -15,11 +15,11 @@ def decompress_with_zstd(file_path):
     return loaded_model
 
 # Load movie data and similarity scores
-movies_df = decompress_with_zstd('data/pkl_data/movies_df.zstd')
-similarity = decompress_with_zstd('data/pkl_data/similarity.zstd')
+movies_df = decompress_with_zstd('src/data/pkl_data/movies_df.zstd')
+similarity = decompress_with_zstd('src/data/pkl_data/similarity.zstd')
 
 # Your API key
-API_KEY = "#YOUR_API_KEY"
+API_KEY = "YOUR_API_KEY"
 
 
 # Fetch movie poster from TMDb API
@@ -63,7 +63,7 @@ def recommend(movie):
             imdb_id = fetch_imdb_id(id)
             recommended_movies_poster.append({'poster_url': poster_url, 'imdb_id': imdb_id})
         else:
-            recommended_movies_poster.append({'poster_url': "image/no-poster.png", 'imdb_id': None})  # Default image
+            recommended_movies_poster.append({'poster_url': "src/data/image/no-poster.png", 'imdb_id': None})  # Default image
     return recommended_movies, recommended_movies_poster
 
 # Web App
