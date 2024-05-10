@@ -65,3 +65,43 @@ def recommend(movie):
         else:
             recommended_movies_poster.append({'poster_url': "image/no-poster.png", 'imdb_id': None})  # Default image
     return recommended_movies, recommended_movies_poster
+
+# Web App
+def main():
+    # Streamlit Config
+    st.set_page_config(page_title="Movie Recommender", page_icon=":movie_camera:", layout="wide")
+    
+    # Web Components
+    st.title('Movie Recommendation System')
+    selected_movie = st.selectbox(
+        label="Select a movie",
+        options=movies_df['title'],
+        placeholder="Choose a movie",
+        index=None)
+
+    if st.button('Recommend'): 
+        # No movies selected 
+        if selected_movie == None:
+            st.error("No movie selected.")
+            return
+        
+        try:    
+            names, posters = recommend(selected_movie)
+            num_cols = 5
+            num_movies = len(names)
+            num_rows = num_movies // num_cols + (num_movies % num_cols > 0)
+
+            for i in range(num_rows):
+                cols = st.columns(num_cols)
+                for j in range(num_cols):
+                    index = i * num_cols + j
+                    if index < num_movies:
+                        with cols[j]:
+                            st.text(names[index])
+                            st.image(posters[index]['poster_url'])
+                            st.markdown(f"[IMDb](https://www.imdb.com/title/{posters[index]['imdb_id']}/)")
+        except IndexError:
+            st.error("Currently we don't have any information about this movie.")
+
+if __name__ == "__main__": 
+    main()
