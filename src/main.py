@@ -45,3 +45,23 @@ def fetch_imdb_id(movie_id):
             return None  # No IMDB ID available
     except:
         return None  # Error occurred
+    
+# Recommend similar movies
+def recommend(movie):
+    movie_index = movies_df[movies_df['title'] == movie].index[0]
+    distances = similarity[movie_index]
+    movies_list = sorted(list(enumerate(distances)), reverse=True, key=lambda x: x[1])[1:16]
+    
+    recommended_movies = []
+    recommended_movies_poster = []
+    for movie in movies_list:
+        id = movies_df.iloc[movie[0]].movie_id
+        recommended_movies.append(movies_df.iloc[movie[0]].title)
+        # Fetch poster from API
+        poster_url = fetch_poster(id)
+        if poster_url:
+            imdb_id = fetch_imdb_id(id)
+            recommended_movies_poster.append({'poster_url': poster_url, 'imdb_id': imdb_id})
+        else:
+            recommended_movies_poster.append({'poster_url': "image/no-poster.png", 'imdb_id': None})  # Default image
+    return recommended_movies, recommended_movies_poster
